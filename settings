@@ -1,5 +1,5 @@
 [settings]
-    selectedColor = 
-    sharedUsers = 
+    selectedColor = blue
+    sharedUsers = ahmad,kani
     backupInterval = {"minutes":"21","seconds":"32"}
 
