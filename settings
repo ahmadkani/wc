@@ -1,5 +1,5 @@
 [settings]
-    selectedColor = Beige
+    selectedColor = pink
     sharedUsers = 
-    backupInterval = {"minutes":"12","seconds":"31"}
+    backupInterval = {"minutes":"42","seconds":"51"}
 
