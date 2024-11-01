@@ -1,5 +1,6 @@
 [settings]
     selectedColor = Beige
-    sharedUsers = asdf,asdff
+    sharedUsers = ahmad,ofski
     backupInterval = {"minutes":"21","seconds":"32"}
+    tags = ahmad,ofski
 
