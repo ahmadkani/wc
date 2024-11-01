@@ -1,0 +1,5 @@
+[settings]
+    selectedColor = Beige
+    sharedUsers = 
+    backupInterval = {"minutes":"12","seconds":"31"}
+
