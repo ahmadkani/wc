@@ -11,6 +11,6 @@
 
 [settings-settings]
     selectedColor = orange
-    sharedUsers = asdf,he,getw,gettingahmad,kani,asdf,he,getw,kani,asdf,he,getw,kani,asdf,he,getw,gettingahmad,kani,asdf,he,getw,kani,asdf,he,getw,kani
+    sharedUsers = gholam,asdf,he,getw,gettingahmad,kani,asdf,he,getw,kani,asdf,he,getw,kani,asdf,he,getw,gettingahmad,kani,asdf,he,getw,kani,asdf,he,getw,kani
     backupInterval = {"minutes":"51","seconds":"12"}
 
