@@ -2,6 +2,7 @@
     selectedColor = Beige
     sharedUsers = asdf,he,getw,gettingahmad,kani
     backupInterval = {"minutes":"22","seconds":"32"}
+    userInformation = {"username":"ahmad","email":"ahmad@kani.com"}
 
 [wc.js-settings]
     selectedColor = blue
@@ -9,7 +10,7 @@
     backupInterval = {"minutes":"32","seconds":"23"}
 
 [settings-settings]
-    selectedColor = blue
+    selectedColor = orange
     sharedUsers = asdf,he,getw,gettingahmad,kani
     backupInterval = {"minutes":"5","seconds":"12"}
 
