@@ -3,3 +3,8 @@
     sharedUsers = asdf,he,getw,gettingahmad,kani
     backupInterval = {"minutes":"22","seconds":"32"}
 
+[wc.js-settings]
+    selectedColor = blue
+    sharedUsers = asdf,he,getw,gettingahmad,kani
+    backupInterval = {"minutes":"32","seconds":"23"}
+
