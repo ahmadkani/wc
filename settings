@@ -8,3 +8,8 @@
     sharedUsers = asdf,he,getw,gettingahmad,kani
     backupInterval = {"minutes":"32","seconds":"23"}
 
+[settings-settings]
+    selectedColor = blue
+    sharedUsers = asdf,he,getw,gettingahmad,kani
+    backupInterval = {"minutes":"8","seconds":"12"}
+
