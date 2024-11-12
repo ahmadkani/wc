@@ -7,7 +7,7 @@ customElements.define('interactive-dashboard', class extends HTMLElement {
 
     connectedCallback() {
         // Get attributes
-        const title = this.getAttribute('title') || "Dashboard";
+        const title = this.getAttribute('title') || "User Dashboard";
         const data = JSON.parse(this.getAttribute('data') || '[]');
 
         // Initial rendering
