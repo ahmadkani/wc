@@ -73,7 +73,7 @@ customElements.define('interactive-dashboard', class extends HTMLElement {
                 <div class="dashboard-content" id="dashboard-content">
                     <div id="overview" style="display: none;">
                         <h2>Overview</h2>
-                        <p>Welcome to the dashboard. Click on the tabs to view different sections.</p>
+                        <p>Welcome Ahmad to the dashboard. Click on the tabs to view different sections.</p>
                     </div>
                     <div id="details" style="display: none;">
                         <h2>User Details</h2>
