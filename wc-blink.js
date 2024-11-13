@@ -30,6 +30,3 @@ customElements.define('wc-blink', class extends HTMLElement { // Updated name to
     `
   }
 });
-
-
-customElements.define('wc-blink', WCBlink)
