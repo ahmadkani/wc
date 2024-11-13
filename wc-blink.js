@@ -1,5 +1,5 @@
 /* eslint no-undef: 0 */
-export class WCBlink extends HTMLElement {
+customElements.define('WCBlink', class extends HTMLElement {
   constructor () {
     super()
     const template = document.createElement('template')
