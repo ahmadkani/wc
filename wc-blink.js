@@ -1,5 +1,5 @@
 /* eslint no-undef: 0 */
-customElements.define('WCBlink', class extends HTMLElement {
+customElements.define('wc-blink', class extends HTMLElement { // Updated name to 'wc-blink'
   constructor () {
     super()
     const template = document.createElement('template')
@@ -30,5 +30,6 @@ customElements.define('WCBlink', class extends HTMLElement {
     `
   }
 });
+
 
 customElements.define('wc-blink', WCBlink)
