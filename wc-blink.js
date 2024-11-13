@@ -1,9 +1,8 @@
-/* eslint no-undef: 0 */
-customElements.define('wc-blink', class extends HTMLElement { // Updated name to 'wc-blink'
+customElements.define('wc-blink', class WCBlink extends HTMLElement { // Named the class WCBlink
   constructor () {
     super()
     const template = document.createElement('template')
-    template.innerHTML = WCBlink.template()
+    template.innerHTML = WCBlink.template() // Now, WCBlink is defined, so this works.
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(document.importNode(template.content, true))
   }
