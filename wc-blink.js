@@ -29,6 +29,6 @@ customElements.define('WCBlink', class extends HTMLElement {
       <p class="blink" style="width: inherit;"><span><slot></slot></span></p>
     `
   }
-}
+});
 
 customElements.define('wc-blink', WCBlink)
