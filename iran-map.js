@@ -136,7 +136,7 @@ class IranMapComponent extends HTMLElement {
     
     this.bottomRightText = document.createElement('div');
     this.bottomRightText.classList.add('bottom-right-text');
-    this.bottomRightText.textContent = 'زیاد';
+    this.bottomRightText.textContent = 'زیاااد';
     
     selectedPaletteContainer.appendChild(this.selectedPaletteDisplay);
     textContainer.appendChild(this.bottomLeftText);
