@@ -14,3 +14,6 @@
     sharedUsers = gettingahmad,kani,kani,asdf,he,getw,kani
     backupInterval = {"minutes":"51","seconds":"12"}
 
+[componentSettings]
+    username= 
+
