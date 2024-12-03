@@ -10,11 +10,14 @@ class IranMapComponent extends HTMLElement {
     this.normalizeScale = null;
     this.colorScale = null;
     this.stateProperties = null;
+    this.selectedMetric = null;
+    this.currentPalette = 'schemeBlues';
   }
 
   connectedCallback() {
     this.mapTitle = this.getAttribute('map-title');
-    this.mapData = this.getAttribute('map-data');
+    this.mapData = JSON.parse(this.getAttribute('map-data'));
+    
     this.render();
   }
 
@@ -23,6 +26,7 @@ class IranMapComponent extends HTMLElement {
     this.createColorPaletteSelector();
     await this.loadData();
     this.createProjectionAndPath();
+    this.createMetricSelector();
     this.setupTooltip();
     this.setupStyles();
     this.createRegions();
@@ -104,6 +108,7 @@ class IranMapComponent extends HTMLElement {
   }
 
   handleColorPaletteChange(paletteName) {
+    this.currentPalette = paletteName;
     this.colorScale = d3.scaleQuantize()
       .domain([0, 1000])
       .range(d3[paletteName][9]);
@@ -136,7 +141,7 @@ class IranMapComponent extends HTMLElement {
     
     this.bottomRightText = document.createElement('div');
     this.bottomRightText.classList.add('bottom-right-text');
-    this.bottomRightText.textContent = 'زیاااد';
+    this.bottomRightText.textContent = 'زیاد';
     
     selectedPaletteContainer.appendChild(this.selectedPaletteDisplay);
     textContainer.appendChild(this.bottomLeftText);
@@ -154,32 +159,41 @@ class IranMapComponent extends HTMLElement {
   async loadData() {
     try {
       this.geoData = await d3.json('./geo_jsons/iran1400.geojson');
-      this.statisticsData = await d3.json('./samples/dataSample.json');
       this.stateProperties = await d3.json('./data/states_properties.json');
+      this.statisticsData = this.mapData
       this.setupChoroplethMap();
     } catch (error) {
       console.error('Error loading data:', error);
     }
   }
 
-  setupChoroplethMap() {
-    this.choroplethMap = new Map(this.statisticsData.map(d => [d.persianName, d.value]));
+  setupChoroplethMap(isFirstSetup = true) {
+    if (isFirstSetup) {
+      this.selectedMetric = Object.keys(this.statisticsData[0]).find(key => key != 'استان')
+    }
+
+    this.choroplethMap = new Map(
+      this.statisticsData.map(d => [d["استان"], d[this.selectedMetric]])
+    );
+
     this.setupScale();
   }
 
   setupScale() {
-    const minValue = d3.min(this.statisticsData, d => d.value);
-    const maxValue = d3.max(this.statisticsData, d => d.value);
+    const values = this.statisticsData.map(d => d[this.selectedMetric]);
+    const minValue = d3.min(values);
+    const maxValue = d3.max(values);
     const maxThreshold = 10000000;
-
+  
     this.normalizeScale = d3.scaleLinear()
-      .domain([minValue, Math.min(maxValue, maxThreshold)])  
+      .domain([minValue, Math.min(maxValue, maxThreshold)])
       .range([0, 1000]);
-
+  
     this.colorScale = d3.scaleQuantize()
       .domain([0, 1000])
-      .range(d3.schemeBlues[9]);
+      .range(d3[this.currentPalette][9]);
   }
+  
 
   setupTooltip() {
     this.tooltip = document.createElement('div');
@@ -216,7 +230,7 @@ class IranMapComponent extends HTMLElement {
         position: absolute;
         top: 20px;
         left: 20px;
-        z-index: 20;
+        z-index: 30;
         display: inline-block;
       }
 
@@ -285,6 +299,21 @@ class IranMapComponent extends HTMLElement {
         font-size: 14px;
         color: black;
       }
+
+      .metric-selector-container {
+        position: absolute;
+        top: 70px; /* Adjust as needed to avoid overlapping */
+        left: 20px;
+        z-index: 20;
+        display: inline-block;
+      }
+
+      .metric-selector-container select {
+        padding: 5px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
     `;
     this.shadowRoot.appendChild(styleElement);
   }
@@ -327,15 +356,19 @@ class IranMapComponent extends HTMLElement {
 
   handleMouseOver(event, d) {
     const provinceName = d.properties.name;
-    const value = this.choroplethMap.get(provinceName);
-
-    this.tooltip.style.display = 'block';
-    this.tooltip.textContent = `${provinceName}: ${value}`;
-
-    this.tooltip.style.left = `${event.pageX + 5}px`;
-    this.tooltip.style.top = `${event.pageY + 5}px`;
-
-    d3.select(event.currentTarget).attr('fill', '#ffcc00');
+    const regionData = this.statisticsData.find(item => item["استان"] === provinceName);
+  
+    if (regionData) {
+      const value = regionData[this.selectedMetric];
+      const label = this.selectedMetric;
+  
+      this.tooltip.style.display = 'block';
+      this.tooltip.textContent = `${label}: ${value}`;
+      this.tooltip.style.left = `${event.pageX + 5}px`;
+      this.tooltip.style.top = `${event.pageY + 5}px`;
+  
+      d3.select(event.currentTarget).attr('fill', '#ffcc00');
+    }
   }
 
   handleMouseOut(event, d) {
@@ -406,6 +439,43 @@ class IranMapComponent extends HTMLElement {
     const rgb = d3.rgb(color);
     const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
     return brightness > 125 ? 'black' : 'white';
+  }
+
+  createMetricSelector() {
+    const metricSelectorContainer = document.createElement('div');
+    metricSelectorContainer.classList.add('metric-selector-container');
+  
+    const metricLabel = document.createElement('label');
+    metricLabel.textContent = 'نوع داده: ';
+    metricLabel.setAttribute('for', 'metric-selector');
+    metricSelectorContainer.appendChild(metricLabel);
+  
+    const metricDropdown = document.createElement('select');
+    metricDropdown.id = 'metric-selector';
+    
+    Object.keys(this.statisticsData[0])
+      .filter(key => key !== 'استان')
+      .forEach(metric => {
+        const option = document.createElement('option');
+        option.value = metric;
+        option.textContent = metric;
+        metricDropdown.appendChild(option);
+      });
+  
+    metricDropdown.addEventListener('change', (event) => {
+      this.handleMetricChange(event.target.value);
+    });
+  
+    metricSelectorContainer.appendChild(metricDropdown);
+  
+    this.shadowRoot.insertBefore(metricSelectorContainer, this.svg.node());
+  }
+
+  handleMetricChange(selectedMetric) {
+    this.selectedMetric = selectedMetric;
+  
+    this.setupChoroplethMap(false);
+    this.updateRegions();
   }
 }
 
