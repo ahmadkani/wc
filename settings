@@ -4,3 +4,4 @@
 
 [library]
     states_properties = /data/states_properties.json
+    iran1400.geojson = /geo_jsons/iran1400.geojson
